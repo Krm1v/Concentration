@@ -29,6 +29,10 @@ class ConcentrationViewController: UIViewController {
         
     }
     
+    @IBAction func newGamePressed() {
+    }
+    
+    
     private func updateViewFromModel() {
         
         for index in cardButtons.indices {
