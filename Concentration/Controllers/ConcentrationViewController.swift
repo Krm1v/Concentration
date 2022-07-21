@@ -9,8 +9,12 @@ import UIKit
 
 class ConcentrationViewController: UIViewController {
     
+    //MARK: - @IBOutlets
+    
     @IBOutlet weak var flipCountLabel: UILabel!
     @IBOutlet var cardButtons: [UIButton]!
+    
+    //MARK: - Properties
     
     lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
     private var emojiChoices = ["👻", "🦇", "🧙‍♀️", "🎃", "🍭", "😈", "🍬", "🍎", "😱"]
@@ -18,20 +22,7 @@ class ConcentrationViewController: UIViewController {
     }
     private var emoji = [Int:String]()
     
-    //MARK: - Action
-    
-    @IBAction private func cardTouch(_ sender: UIButton) {
-        
-        flipCount += 1
-        guard let cardNumber = cardButtons.firstIndex(of: sender) else { return }
-        game.chooseCard(at: cardNumber)
-        updateViewFromModel()
-        
-    }
-    
-    @IBAction func newGamePressed() {
-    }
-    
+    //MARK: - Methods
     
     private func updateViewFromModel() {
         
@@ -55,6 +46,19 @@ class ConcentrationViewController: UIViewController {
             emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
         }
         return emoji[card.identifier] ?? "?"
+    }
+    //MARK: - Action
+    
+    @IBAction private func cardTouch(_ sender: UIButton) {
+        
+        flipCount += 1
+        guard let cardNumber = cardButtons.firstIndex(of: sender) else { return }
+        game.chooseCard(at: cardNumber)
+        updateViewFromModel()
+    }
+    
+    @IBAction func newGamePressed() {
+        // TODO: put some code
     }
 }
 

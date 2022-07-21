@@ -38,7 +38,6 @@ class Concentration {
             let card = Card()
             cards += [card, card]
         }
-        // TODO: Shuffle the cards
         cards.shuffle()
     }
 }

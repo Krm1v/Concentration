@@ -59,10 +59,9 @@
 			isa = PBXGroup;
 			children = (
 				867279B528886B4D00653694 /* UIApplication */,
-				867279A528886B3700653694 /* ConcentrationViewController.swift */,
-				867279B728888F5200653694 /* Concentration.swift */,
-				867279B92888901E00653694 /* Card.swift */,
+				867279C72889B21700653694 /* Model */,
 				867279B628886FCB00653694 /* View */,
+				867279C82889B21D00653694 /* Controllers */,
 				867279AA28886B3A00653694 /* Assets.xcassets */,
 				867279AF28886B3A00653694 /* Info.plist */,
 			);
@@ -84,6 +83,23 @@
 				867279A728886B3700653694 /* Main.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		867279C72889B21700653694 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				867279B728888F5200653694 /* Concentration.swift */,
+				867279B92888901E00653694 /* Card.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		867279C82889B21D00653694 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				867279A528886B3700653694 /* ConcentrationViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
