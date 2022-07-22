@@ -11,14 +11,15 @@ class ConcentrationViewController: UIViewController {
     
     //MARK: - @IBOutlets
     
-    @IBOutlet weak var flipCountLabel: UILabel!
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private weak var flipCountLabel: UILabel!
+    @IBOutlet private var cardButtons: [UIButton]!
     
     //MARK: - Properties
     
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    private var numberOfPairsOfCards: Int { return (cardButtons.count + 1) / 2 }
     private var emojiChoices = ["👻", "🦇", "🧙‍♀️", "🎃", "🍭", "😈", "🍬", "🍎", "😱"]
-    private var flipCount = 0 { didSet { flipCountLabel.text = "Flips: \(flipCount)" }
+    private(set) var flipCount = 0 { didSet { flipCountLabel.text = "Flips: \(flipCount)" }
     }
     private var emoji = [Int:String]()
     
@@ -42,8 +43,7 @@ class ConcentrationViewController: UIViewController {
     private func emoji(for card: Card) -> String {
         
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
         }
         return emoji[card.identifier] ?? "?"
     }
@@ -57,9 +57,18 @@ class ConcentrationViewController: UIViewController {
         updateViewFromModel()
     }
     
-    @IBAction func newGamePressed() {
-        // TODO: put some code
-    }
+    
 }
 
-
+extension Int {
+    
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(abs(self))))
+        } else {
+            return 0
+        }
+    }
+}
