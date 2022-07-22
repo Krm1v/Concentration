@@ -35,11 +35,13 @@ class Concentration {
     
     private(set) var score = 0
     private var seenCards: Set<Int> = []
+    private(set) var flipCount = 0
     
     //MARK: - Methods
     
     func chooseCard(at index: Int) {
         if !cards[index].isMatched {
+            flipCount += 1
             if let matchedIndex = indexOfOneAndOnlyFacedUpCard, matchedIndex != index {
                 if cards[matchedIndex].identifier == cards[index].identifier {
                     cards[matchedIndex].isMatched = true
@@ -67,6 +69,7 @@ class Concentration {
             cards[index].isFaceUp = false
             cards[index].isMatched = false
             score = 0
+            flipCount = 0
         }
     }
     

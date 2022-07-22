@@ -14,6 +14,7 @@ class ConcentrationViewController: UIViewController {
     @IBOutlet private weak var flipCountLabel: UILabel!
     @IBOutlet private var cardButtons: [UIButton]!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var themeTitleLabel: UILabel!
     
     //MARK: - Properties
     
@@ -21,16 +22,13 @@ class ConcentrationViewController: UIViewController {
     private var numberOfPairsOfCards: Int { return (cardButtons.count + 1) / 2 }
     private var themes = Emoji()
     
-    private(set) var flipCount = 0 { didSet { flipCountLabel.text = "Flips: \(flipCount)" }
-    }
-    
     //MARK: - UIView lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
         themes.indexTheme = themes.keys.count.arc4random
         setupUI()
-        
     }
     
     //MARK: - Methods
@@ -48,7 +46,9 @@ class ConcentrationViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
             }
         }
+        flipCountLabel.text = "Flips: \(game.flipCount)"
         scoreLabel.text = "Score: \(game.score)"
+        themeTitleLabel.text = themes.keys[themes.indexTheme]
     }
     
     private func emoji(for card: Card) -> String {
@@ -69,7 +69,6 @@ class ConcentrationViewController: UIViewController {
     
     @IBAction private func cardTouch(_ sender: UIButton) {
         
-        flipCount += 1
         guard let cardNumber = cardButtons.firstIndex(of: sender) else { return }
         game.chooseCard(at: cardNumber)
         updateViewFromModel()
@@ -79,7 +78,6 @@ class ConcentrationViewController: UIViewController {
         game.resetGame()
         themes.indexTheme = themes.keys.count.arc4random
         updateViewFromModel()
-        flipCount = 0
     }
 }
 
