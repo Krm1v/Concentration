@@ -13,15 +13,25 @@ class ConcentrationViewController: UIViewController {
     
     @IBOutlet private weak var flipCountLabel: UILabel!
     @IBOutlet private var cardButtons: [UIButton]!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     //MARK: - Properties
     
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     private var numberOfPairsOfCards: Int { return (cardButtons.count + 1) / 2 }
-    private var emojiChoices = ["👻", "🦇", "🧙‍♀️", "🎃", "🍭", "😈", "🍬", "🍎", "😱"]
+    private var themes = Emoji()
+    
     private(set) var flipCount = 0 { didSet { flipCountLabel.text = "Flips: \(flipCount)" }
     }
-    private var emoji = [Int:String]()
+    
+    //MARK: - UIView lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        themes.indexTheme = themes.keys.count.arc4random
+        setupUI()
+        
+    }
     
     //MARK: - Methods
     
@@ -38,15 +48,23 @@ class ConcentrationViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
             }
         }
+        scoreLabel.text = "Score: \(game.score)"
     }
     
     private func emoji(for card: Card) -> String {
         
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
+        if themes.emoji[card.identifier] == nil, themes.emojiChoices.count > 0 {
+            themes.emoji[card.identifier] = themes.emojiChoices.remove(at: themes.emojiChoices.count.arc4random)
         }
-        return emoji[card.identifier] ?? "?"
+        return themes.emoji[card.identifier] ?? "?"
     }
+    
+    private func setupUI() {
+        cardButtons.forEach { button in
+            button.layer.cornerRadius = 15
+        }
+    }
+    
     //MARK: - Action
     
     @IBAction private func cardTouch(_ sender: UIButton) {
@@ -57,7 +75,12 @@ class ConcentrationViewController: UIViewController {
         updateViewFromModel()
     }
     
-    
+    @IBAction private func newGameButtonPressed() {
+        game.resetGame()
+        themes.indexTheme = themes.keys.count.arc4random
+        updateViewFromModel()
+        flipCount = 0
+    }
 }
 
 extension Int {
