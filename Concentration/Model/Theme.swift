@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Emoji {
+struct Theme {
     
     private(set) var emojiByThemes = [
         "Haloween" : ["👻", "🦇", "🧙‍♀️", "🎃", "🍭", "😈", "🍬", "🍎", "😱", "☠️"],
@@ -29,5 +29,4 @@ struct Emoji {
     }
     var emojiChoices = [String]()
     var emoji = [Int:String]()
-    
 }

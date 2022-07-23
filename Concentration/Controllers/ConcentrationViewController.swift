@@ -13,22 +13,23 @@ class ConcentrationViewController: UIViewController {
     
     @IBOutlet private weak var flipCountLabel: UILabel!
     @IBOutlet private var cardButtons: [UIButton]!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var themeTitleLabel: UILabel!
+    @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet private weak var themeTitleLabel: UILabel!
+    @IBOutlet weak var newGameButton: UIButton!
     
     //MARK: - Properties
     
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     private var numberOfPairsOfCards: Int { return (cardButtons.count + 1) / 2 }
-    private var themes = Emoji()
+    private var themes = Theme()
     
     //MARK: - UIView lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
         themes.indexTheme = themes.keys.count.arc4random
-        setupUI()
+        setupUIForCards()
+        setupUIForLabelsAndNewGameButton()
     }
     
     //MARK: - Methods
@@ -59,10 +60,27 @@ class ConcentrationViewController: UIViewController {
         return themes.emoji[card.identifier] ?? "?"
     }
     
-    private func setupUI() {
+    private func setupUIForCards() {
         cardButtons.forEach { button in
             button.layer.cornerRadius = 15
         }
+    }
+    
+    private func setupUIForLabelsAndNewGameButton() {
+        let attributes: [NSAttributedString.Key : Any] = [
+            .strokeColor : UIColor.orange,
+            .strokeWidth : 5.0
+        ]
+        let attributedTitleForScoreLabel = NSAttributedString(string: "Score: 0",
+                                                              attributes: attributes)
+        let attributedTitleForFlipsLabel = NSAttributedString(string: "Flips: 0",
+                                                              attributes: attributes)
+        let attributedTitleForNewGameButton = NSAttributedString(string: "New game",
+                                                                 attributes: attributes)
+        scoreLabel.attributedText = attributedTitleForScoreLabel
+        flipCountLabel.attributedText = attributedTitleForFlipsLabel
+        newGameButton.setAttributedTitle(attributedTitleForNewGameButton,
+                                         for: .normal)
     }
     
     //MARK: - Action
@@ -75,6 +93,7 @@ class ConcentrationViewController: UIViewController {
     }
     
     @IBAction private func newGameButtonPressed() {
+        
         game.resetGame()
         themes.indexTheme = themes.keys.count.arc4random
         updateViewFromModel()
