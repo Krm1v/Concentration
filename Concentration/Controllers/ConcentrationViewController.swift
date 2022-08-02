@@ -22,6 +22,8 @@ class ConcentrationViewController: UIViewController {
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     private var numberOfPairsOfCards: Int { return (cardButtons.count + 1) / 2 }
     private var themes = Theme()
+    private var primaryColor = UIColor(red: 130/255, green: 42/255, blue: 111/255, alpha: 1)
+    private var secondaryColor = UIColor(red: 98/255, green: 39/255, blue: 201/255, alpha: 1)
     
     //MARK: - UIView lifecycle
     
@@ -30,6 +32,7 @@ class ConcentrationViewController: UIViewController {
         themes.indexTheme = themes.keys.count.arc4random
         setupUIForCards()
         setupUIForLabelsAndNewGameButton()
+        addVerticalGradientLayer(topcolor: primaryColor, bottomColor: secondaryColor)
     }
     
     //MARK: - Methods
@@ -44,7 +47,7 @@ class ConcentrationViewController: UIViewController {
                 button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             } else {
                 button.setTitle("", for: .normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : .systemPurple
             }
         }
         flipCountLabel.text = "Flips: \(game.flipCount)"
@@ -68,7 +71,7 @@ class ConcentrationViewController: UIViewController {
     
     private func setupUIForLabelsAndNewGameButton() {
         let attributes: [NSAttributedString.Key : Any] = [
-            .strokeColor : UIColor.orange,
+            .strokeColor : UIColor.white,
             .strokeWidth : 5.0
         ]
         let attributedTitleForScoreLabel = NSAttributedString(string: "Score: 0",
@@ -110,5 +113,19 @@ extension Int {
         } else {
             return 0
         }
+    }
+}
+
+fileprivate extension ConcentrationViewController {
+    
+    func addVerticalGradientLayer(topcolor: UIColor,
+                                  bottomColor: UIColor) {
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [topcolor.cgColor, bottomColor.cgColor]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0)
+        gradient.endPoint = CGPoint(x: 0, y: 1)
+        view.layer.insertSublayer(gradient, at: 0)
     }
 }
