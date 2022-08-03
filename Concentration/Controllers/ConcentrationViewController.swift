@@ -69,6 +69,15 @@ class ConcentrationViewController: UIViewController {
         }
     }
     
+    private func animateButton(_ sender: UIButton) {
+        
+        UIView.transition(with: sender,
+                          duration: 0.6,
+                          options: [.transitionFlipFromLeft]) {
+            self.updateViewFromModel()
+        }
+    }
+    
     private func setupUIForLabelsAndNewGameButton() {
         let attributes: [NSAttributedString.Key : Any] = [
             .strokeColor : UIColor.white,
@@ -92,11 +101,11 @@ class ConcentrationViewController: UIViewController {
         
         guard let cardNumber = cardButtons.firstIndex(of: sender) else { return }
         game.chooseCard(at: cardNumber)
-        updateViewFromModel()
+        animateButton(sender)
     }
     
     @IBAction private func newGameButtonPressed() {
-        
+    
         game.resetGame()
         themes.indexTheme = themes.keys.count.arc4random
         updateViewFromModel()
