@@ -45,6 +45,7 @@ class ConcentrationViewController: UIViewController {
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: .normal)
                 button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                
             } else {
                 button.setTitle("", for: .normal)
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : .systemPurple
@@ -64,6 +65,7 @@ class ConcentrationViewController: UIViewController {
     }
     
     private func setupUIForCards() {
+        
         cardButtons.forEach { button in
             button.layer.cornerRadius = 15
         }
@@ -79,6 +81,7 @@ class ConcentrationViewController: UIViewController {
     }
     
     private func setupUIForLabelsAndNewGameButton() {
+        
         let attributes: [NSAttributedString.Key : Any] = [
             .strokeColor : UIColor.white,
             .strokeWidth : 5.0
