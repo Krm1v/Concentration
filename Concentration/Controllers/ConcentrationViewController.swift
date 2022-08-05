@@ -45,12 +45,12 @@ class ConcentrationViewController: UIViewController {
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: .normal)
                 button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                
             } else {
                 button.setTitle("", for: .normal)
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : .systemPurple
             }
         }
+        
         flipCountLabel.text = "Flips: \(game.flipCount)"
         scoreLabel.text = "Score: \(game.score)"
         themeTitleLabel.text = themes.keys[themes.indexTheme]
@@ -77,6 +77,7 @@ class ConcentrationViewController: UIViewController {
                           duration: 0.6,
                           options: [.transitionFlipFromLeft]) {
             self.updateViewFromModel()
+            
         }
     }
     
@@ -108,7 +109,7 @@ class ConcentrationViewController: UIViewController {
     }
     
     @IBAction private func newGameButtonPressed() {
-    
+        
         game.resetGame()
         themes.indexTheme = themes.keys.count.arc4random
         updateViewFromModel()
